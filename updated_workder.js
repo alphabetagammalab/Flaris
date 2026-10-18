@@ -1782,7 +1782,38 @@ body{font-family:'Inter',sans-serif}.hide-scrollbar::-webkit-scrollbar{display:n
               <div class="flex-1 min-w-0" v-if="db.items[itemId]"><div class="flex items-center gap-2"><span class="font-bold text-slate-700 truncate dark:text-slate-200">{{db.items[itemId].title}}</span><span v-if="db.items[itemId].isPrivate" class="text-[10px] bg-amber-100 text-amber-600 px-1.5 rounded border border-amber-200 dark:bg-amber-900/30 dark:text-amber-400 dark:border-amber-800"><i class="fas fa-lock"></i> {{ t('private') }}</span></div><div class="text-xs text-blue-500 truncate mt-0.5 hover:underline">{{db.items[itemId].url}}</div></div>
               <div v-else class="flex-1 text-red-500 text-sm"><i class="fas fa-unlink"></i> 引用已失效</div>
               <div class="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                <div class="flex bg-slate-50 rounded-lg border border-slate-200 mr-2 dark:bg-slate-700 dark:border-slate-600" v-if="!showAllMode && !adminSearchQuery"><button @click="moveItem(iIdx,-1)" class="px-2 py-1.5 text-slate-400 hover:text-blue-600 border-r border-slate-200 dark:border-slate-600" :title="t('move_up')"><i class="fas fa-arrow-up text-xs"></i></button><button @click="moveItem(iIdx,1)" class="px-2 py-1.5 text-slate-400 hover:text-blue-600" :title="t('move_down')"><i class="fas fa-arrow-down text-xs"></i></button></div>
+
+                // <div class="flex bg-slate-50 rounded-lg border border-slate-200 mr-2 dark:bg-slate-700 dark:border-slate-600" v-if="!showAllMode && !adminSearchQuery"><button @click="moveItem(iIdx,-1)" class="px-2 py-1.5 text-slate-400 hover:text-blue-600 border-r border-slate-200 dark:border-slate-600" :title="t('move_up')"><i class="fas fa-arrow-up text-xs"></i></button><button @click="moveItem(iIdx,1)" class="px-2 py-1.5 text-slate-400 hover:text-blue-600" :title="t('move_down')"><i class="fas fa-arrow-down text-xs"></i></button></div>
+                
+
+                <div
+    class="flex bg-slate-50 rounded-lg border border-slate-200 mr-2 dark:bg-slate-700 dark:border-slate-600"
+    v-if="showAllMode && !adminSearchQuery"
+>
+    <button
+        @click="moveItem(iIdx, -1)"
+        class="px-2 py-1.5 text-slate-400 hover:text-blue-600 border-r border-slate-200 dark:border-slate-600"
+        :title="t('move_up')"
+    >
+        <i class="fas fa-arrow-up text-xs"></i>
+    </button>
+
+    <button
+        @click="moveItem(iIdx, 1)"
+        class="px-2 py-1.5 text-slate-400 hover:text-blue-600"
+        :title="t('move_down')"
+    >
+        <i class="fas fa-arrow-down text-xs"></i>
+    </button>
+</div>
+
+
+
+
+
+
+
+
                 <button @click="editItem(itemId)" class="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 flex items-center justify-center transition-colors dark:bg-blue-900/30 dark:text-blue-400" :title="t('edit_content')"><i class="fas fa-pen text-xs"></i></button>
                 <button @click="deleteItem(itemId,iIdx)" class="w-8 h-8 rounded-lg bg-red-50 text-red-500 hover:bg-red-100 flex items-center justify-center transition-colors dark:bg-red-900/30 dark:text-red-400" :title="showAllMode?t('delete_physical'):t('unlink')"><i :class="showAllMode?'fas fa-trash':'fas fa-link-slash'" class="text-xs"></i></button>
               </div>
@@ -1883,10 +1914,52 @@ body{font-family:'Inter',sans-serif}.hide-scrollbar::-webkit-scrollbar{display:n
       const curCat = computed(() => db.value.categories[curCatIdx.value]);
       const showAllMode = ref(false);
       const adminSearchQuery = ref("");
-      
+
+
+
+      const allOrderedItemIds = computed(() => {
+    const items = db.value.items || {};
+    const orderedIds = [];
+    const seen = new Set();
+
+    const appendIds = (ids) => {
+        (ids || []).forEach(id => {
+            if (items[id] && !seen.has(id)) {
+                seen.add(id);
+                orderedIds.push(id);
+            }
+        });
+    };
+
+    // 优先使用独立的全局顺序
+    appendIds(db.value.globalItemIds);
+
+    // 兼容已有分类数据
+    (db.value.categories || []).forEach(cat => {
+        appendIds(cat.itemIds);
+
+        (cat.subCategories || []).forEach(sub => {
+            appendIds(sub.itemIds);
+        });
+    });
+
+    // 最后追加尚未进入顺序表的网站
+    Object.keys(items).forEach(id => appendIds([id]));
+
+    return orderedIds;
+});
+
+
+
+
+
+
+
+      /*
       const filteredAdminItems = computed(() => {
           let ids = [];
-          if (showAllMode.value) { ids = Object.keys(db.value.items || {}); } 
+          //if (showAllMode.value) { ids = Object.keys(db.value.items || {}); } 
+          if (showAllMode.value) { ids = allOrderedItemIds.value;}
           else {
               if (!curCat.value) return [];
               if (curSubIdx.value === -1) ids = curCat.value.itemIds || [];
@@ -1896,6 +1969,51 @@ body{font-family:'Inter',sans-serif}.hide-scrollbar::-webkit-scrollbar{display:n
           const q = adminSearchQuery.value.toLowerCase();
           return ids.filter(id => { const item = db.value.items[id]; return item && (item.title.toLowerCase().includes(q) || item.url.includes(q)); });
       });
+      */
+
+
+      const filteredAdminItems = computed(() => {
+    let ids = [];
+
+    if (showAllMode.value) {
+        // 全部链接：使用全局顺序
+        ids = allOrderedItemIds.value;
+    } else {
+        // 分类模式：保留原有分类筛选逻辑
+        if (!curCat.value) return [];
+
+        if (curSubIdx.value === -1) {
+            ids = curCat.value.itemIds || [];
+        } else {
+            ids = curCat.value.subCategories?.[curSubIdx.value]?.itemIds || [];
+        }
+    }
+
+    // 搜索时筛选网站，但不改变原始顺序
+    if (!adminSearchQuery.value) return ids;
+
+    const q = adminSearchQuery.value.toLowerCase();
+
+    return ids.filter(id => {
+        const item = db.value.items?.[id];
+        if (!item) return false;
+
+        return (
+            (item.title || '').toLowerCase().includes(q) ||
+            (item.url || '').toLowerCase().includes(q) ||
+            (item.desc || '').toLowerCase().includes(q)
+        );
+    });
+});
+
+
+
+
+
+
+
+
+
       
       const curItemList = filteredAdminItems;
 
@@ -2182,34 +2300,15 @@ const moveItem = (idx, dir) => {
     const ids = allOrderedItemIds.value.slice();
     const nextIdx = idx + dir;
 
+    if (idx < 0 || idx >= ids.length) return;
     if (nextIdx < 0 || nextIdx >= ids.length) return;
 
     [ids[idx], ids[nextIdx]] = [ids[nextIdx], ids[idx]];
 
-    // 将新的全局顺序写回第一个分类的 itemIds
-    if (db.value.categories.length === 0) {
-        db.value.categories.push({
-            id: 'c' + genId(),
-            name: 'All Links',
-            icon: 'fas fa-folder',
-            itemIds: ids,
-            subCategories: []
-        });
-    } else {
-        db.value.categories[0].itemIds = ids;
+    // 只更新全局顺序，不修改任何分类
+    db.value.globalItemIds = ids;
 
-        // 清除其他分类和子分类中的旧引用，避免重复显示
-        db.value.categories.slice(1).forEach(cat => {
-            cat.itemIds = [];
-            (cat.subCategories || []).forEach(sub => {
-                sub.itemIds = [];
-            });
-        });
-
-        (db.value.categories[0].subCategories || []).forEach(sub => {
-            sub.itemIds = [];
-        });
-    }
+    console.log('[排序后]', JSON.stringify(db.value.globalItemIds));
 };
 
 
