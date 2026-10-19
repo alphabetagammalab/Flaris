@@ -1,0 +1,1626 @@
+/* Flaris -> WebNavigation visual layer
+   Paste into Flaris Admin > Site Settings > Advanced > Custom CSS.
+   This stylesheet does not alter KV data or API behavior. */
+
+:root {
+  --wn-bg: #d4e7f6;
+  --wn-text: #18202a;
+  --wn-muted: #7c8794;
+  --wn-card: rgba(255,255,255,.62);
+  --wn-card-strong: rgba(255,255,255,.82);
+  --wn-border: rgba(255,255,255,.72);
+  --wn-shadow: 0 18px 55px rgba(40,52,70,.12);
+  --wn-accent: #4b78d1;
+}
+
+html, body {
+  background: var(--wn-bg) !important;
+  color: var(--wn-text);
+}
+body {
+  background-image: none !important;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
+    "SF Pro Text", "Segoe UI", sans-serif !important;
+}
+.dark body {
+  background: #171c25 !important;
+  color: #e8edf5 !important;
+}
+.ambient-blob { display: none !important; }
+
+/* Keep Flaris's original header controls and category navigation,
+   but make the bar visually lighter. */
+#app > header {
+  background: rgba(255,255,255,.58) !important;
+  border-bottom: 1px solid rgba(255,255,255,.65) !important;
+  box-shadow: 0 6px 24px rgba(40,52,70,.05) !important;
+  backdrop-filter: blur(22px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(22px) saturate(160%) !important;
+}
+.dark #app > header {
+  background: rgba(20,25,35,.78) !important;
+  border-bottom-color: rgba(255,255,255,.08) !important;
+}
+
+/* Injected hero clock/date/search. */
+#wn-hero {
+  width: min(1180px, calc(100% - 42px));
+  margin: 60px auto 0;
+  padding: 16px 0 0;
+  text-align: center;
+  flex: 0 0 auto;
+  color: var(--wn-text);
+}
+
+.dark #wn-hero {
+  color: #e8edf5;
+}
+
+
+#wn-clock {
+  margin: 0 auto;
+  font-size: clamp(54px, 8vw, 88px);
+  line-height: 1.02;
+  font-weight: 300;
+  letter-spacing: -3px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+#wn-date {
+  margin: 10px 0 24px;
+  color: var(--wn-muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+#wn-search-wrap {
+  position: relative;
+  width: min(680px, 100%);
+  margin: 0 auto;
+}
+#wn-search-box {
+  height: 58px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 16px;
+  background: var(--wn-card);
+  border: 1px solid var(--wn-border);
+  border-radius: 19px;
+  box-shadow: var(--wn-shadow);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  transition: background .2s ease, border-color .2s ease, box-shadow .2s ease;
+}
+#wn-search-box:hover,
+#wn-search-box:focus-within {
+  background: var(--wn-card-strong);
+  border-color: rgba(75,120,209,.42);
+  box-shadow: 0 18px 55px rgba(40,52,70,.14), 0 0 0 3px rgba(75,120,209,.08);
+}
+#wn-search-box .wn-search-icon {
+  width: 20px;
+  flex: 0 0 20px;
+  color: #7c8794;
+  font-size: 17px;
+}
+#wn-search {
+  flex: 1;
+  width: 100%;
+  min-width: 0;
+  border: 0 !important;
+  outline: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: var(--wn-text) !important;
+  font: inherit;
+  font-size: 16px !important;
+}
+#wn-search::placeholder { color: #929ba7; }
+#wn-search-hint {
+  color: #929ba7;
+  font-size: 11px;
+  white-space: nowrap;
+}
+.dark #wn-search-box {
+  background: rgba(255,255,255,.07);
+  border-color: rgba(255,255,255,.12);
+}
+.dark #wn-search-box:hover,
+.dark #wn-search-box:focus-within { background: rgba(255,255,255,.1); }
+.dark #wn-search { color: #e8edf5 !important; }
+
+/* The original Flaris search remains as the Vue v-model target, but is hidden. */
+#app > header .relative.group.w-full.max-w-\[140px\] { display: none !important; }
+
+/* Replace the large tile grid with small shortcut icons. */
+#app > main {
+  padding-top: 24px !important;
+  max-width: 1180px !important;
+}
+#app > main .grid.grid-cols-2 {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)) !important;
+  justify-items: center !important;
+  align-items: start !important;
+  gap: 22px 18px !important;
+  margin: 0 auto 28px !important;
+  width: 100% !important;
+}
+#app > main a.card-glass {
+  box-sizing: border-box !important;
+  display: flex !important;
+  width: 72px !important;
+  min-width: 72px !important;
+  height: auto !important;
+  min-height: 0 !important;
+  padding: 3px 2px 6px !important;
+  margin: 0 !important;
+  overflow: visible !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  border: 1px solid transparent !important;
+  border-radius: 12px !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  transform: none !important;
+}
+#app > main a.card-glass:hover {
+  border-color: transparent !important;
+  background: rgba(255,255,255,.28) !important;
+  box-shadow: none !important;
+  transform: translateY(-2px) !important;
+}
+.dark #app > main a.card-glass:hover {
+  background: rgba(255,255,255,.06) !important;
+}
+#app > main a.card-glass > div:first-child {
+  display: flex !important;
+  width: 100% !important;
+  height: auto !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 8px !important;
+  opacity: 1 !important;
+}
+#app > main a.card-glass > div:first-child > div.relative {
+  position: relative !important;
+  width: 56px !important;
+  height: 56px !important;
+  flex: 0 0 56px !important;
+  margin: 0 !important;
+}
+#app > main a.card-glass > div:first-child > div.relative > div {
+  box-sizing: border-box !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 56px !important;
+  height: 56px !important;
+  padding: 11px !important;
+  border: 1px solid rgba(255,255,255,.78) !important;
+  border-radius: 15px !important;
+  background: rgba(255,255,255,.58) !important;
+  box-shadow: 0 7px 20px rgba(40,52,70,.10) !important;
+  transition: transform .16s ease, box-shadow .16s ease !important;
+}
+.dark #app > main a.card-glass > div:first-child > div.relative > div {
+  background: rgba(255,255,255,.08) !important;
+  border-color: rgba(255,255,255,.12) !important;
+  box-shadow: 0 7px 20px rgba(0,0,0,.15) !important;
+}
+#app > main a.card-glass > div:first-child > div.relative img {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+  border-radius: 5px !important;
+  filter: none !important;
+}
+#app > main a.card-glass:hover > div:first-child > div.relative > div {
+  transform: translateY(-2px) scale(1.04) !important;
+  box-shadow: 0 10px 26px rgba(40,52,70,.14) !important;
+}
+#app > main a.card-glass h3 {
+  display: block !important;
+  width: 72px !important;
+  max-width: 72px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  line-height: 1.3 !important;
+  text-align: center !important;
+  color: #18202a !important;
+}
+.dark #app > main a.card-glass h3 { color: #e8edf5 !important; }
+#app > main a.card-glass:hover h3 { color: #315fae !important; }
+#app > main a.card-glass > div.absolute.inset-0,
+#app > main a.card-glass > div.absolute.top-2 { display: none !important; }
+
+/* Hide the old bottom greeting/time dashboard; the new hero replaces its clock.
+   Flaris category navigation, language/theme buttons and admin entry remain. */
+#app > main .mt-auto.pt-16 { display: none !important; }
+
+/* Search-result count remains readable with the new style. */
+#app > main .mb-6 { color: var(--wn-text) !important; }
+.dark #app > main .mb-6 { color: #e8edf5 !important; }
+
+@media (max-width: 640px) {
+  #wn-hero {
+    width: calc(100% - 28px);
+    margin-top: 76px;
+    padding-top: 24px;
+  }
+  #wn-clock { font-size: clamp(48px, 15vw, 68px); letter-spacing: -2px; }
+  #wn-date { margin: 8px 0 22px; font-size: 12px; }
+  #wn-search-box { height: 52px; border-radius: 16px; }
+  #wn-search-hint { display: none; }
+  #app > main .grid.grid-cols-2 {
+    grid-template-columns: repeat(auto-fill, minmax(64px, 1fr)) !important;
+    gap: 18px 10px !important;
+  }
+  #app > main a.card-glass,
+  #app > main a.card-glass h3 {
+    width: 64px !important;
+    min-width: 64px !important;
+    max-width: 64px !important;
+  }
+  #app > main a.card-glass > div:first-child > div.relative,
+  #app > main a.card-glass > div:first-child > div.relative > div {
+    width: 52px !important;
+    height: 52px !important;
+  }
+  #app > main a.card-glass > div:first-child > div.relative {
+    flex-basis: 52px !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  #wn-search-box, #app > main a.card-glass,
+  #app > main a.card-glass * { transition: none !important; }
+}
+/* 添加 */
+
+
+
+
+
+/* Completely remove the navigation card hover frame */
+#app a.group.card-glass,
+#app a.group.card-glass:hover,
+#app a.group.card-glass:focus,
+#app a.group.card-glass:focus-visible,
+#app a.group.card-glass:active {
+    border: 0 !important;
+    border-color: transparent !important;
+    outline: 0 !important;
+    outline-offset: 0 !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    background-color: transparent !important;
+    transform: none !important;
+    filter: none !important;
+    -webkit-tap-highlight-color: transparent !important;
+}
+
+/* Remove all card pseudo-element decorations */
+#app a.group.card-glass::before,
+#app a.group.card-glass::after,
+#app a.group.card-glass:hover::before,
+#app a.group.card-glass:hover::after {
+    display: none !important;
+    content: none !important;
+    border: 0 !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+    background: transparent !important;
+}
+
+/* Remove hover decoration from all descendants */
+#app a.group.card-glass *,
+#app a.group.card-glass:hover * {
+    outline: none !important;
+}
+
+/* Keep the icon and title visible */
+#app a.group.card-glass > div:first-child,
+#app a.group.card-glass:hover > div:first-child {
+    opacity: 1 !important;
+}
+
+/* Hide description and external-link indicator */
+#app a.group.card-glass > div.absolute.inset-0,
+#app a.group.card-glass > div.absolute.top-2.right-2 {
+    display: none !important;
+}
+
+/*网站图标和文字*/
+
+
+
+/* =========================================
+   WebNavigation-style shortcut hover effect
+   Animate the frame and its contents consistently
+   ========================================= */
+
+/* Keep the shortcut itself stationary */
+#app main a.group.card-glass {
+    position: relative !important;
+    isolation: isolate !important;
+    transform: none !important;
+    overflow: visible !important;
+}
+
+/* Independent rounded frame */
+#app main a.group.card-glass::before {
+    content: "" !important;
+    display: block !important;
+    position: absolute !important;
+    inset: 0 !important;
+    z-index: -1 !important;
+
+    border: 1px solid transparent !important;
+    border-radius: 12px !important;
+    background: transparent !important;
+
+    opacity: 0 !important;
+    transform: scale(0.96) !important;
+
+    transition:
+        opacity 0.22s ease,
+        transform 0.22s ease,
+        border-color 0.22s ease,
+        background-color 0.22s ease !important;
+
+    pointer-events: none !important;
+}
+
+/* Animate the rounded frame */
+#app main a.group.card-glass:hover::before,
+#app main a.group.card-glass:focus-visible::before {
+    opacity: 1 !important;
+    transform: scale(1) !important;
+    border-color: rgba(234, 88, 12, 0.28) !important;
+    background-color: rgba(234, 88, 12, 0.045) !important;
+}
+
+/* Treat the icon frame and title as one moving group */
+#app main a.group.card-glass > div:first-child {
+    transition: transform 0.22s ease !important;
+    transform: translateY(0) !important;
+}
+
+/* Move both together without changing their relative positions */
+#app main a.group.card-glass:hover > div:first-child,
+#app main a.group.card-glass:focus-visible > div:first-child {
+    transform: translateY(-2px) !important;
+}
+
+/* Keep the icon image stationary inside its rounded container */
+#app main a.group.card-glass img {
+    transform: none !important;
+    transition: filter 0.22s ease !important;
+}
+
+/* Subtle icon emphasis */
+#app main a.group.card-glass:hover img,
+#app main a.group.card-glass:focus-visible img {
+    filter: brightness(1.06) !important;
+}
+
+/* Title color changes without a separate vertical movement */
+#app main a.group.card-glass h3 {
+    transform: none !important;
+    transition: color 0.22s ease !important;
+}
+
+#app main a.group.card-glass:hover h3,
+#app main a.group.card-glass:focus-visible h3 {
+    color: #ea580c !important;
+}
+
+/* No animation when reduced motion is requested */
+@media (prefers-reduced-motion: reduce) {
+    #app main a.group.card-glass::before,
+    #app main a.group.card-glass > div:first-child,
+    #app main a.group.card-glass img,
+    #app main a.group.card-glass h3 {
+        transition: none !important;
+    }
+}
+
+/*搜索引擎*/
+
+
+
+/* ==========================================
+   WebNavigation search engine icon picker
+   ========================================== */
+
+#wn-search-box {
+  box-sizing: border-box;
+  width: 100%;
+  gap: 12px;
+}
+
+.wn-engine-picker {
+  position: relative;
+  z-index: 20;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+}
+
+#wn-engine-button {
+  box-sizing: border-box;
+  width: 42px;
+  height: 42px;
+  padding: 0 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  transition:
+    background .2s ease,
+    transform .2s ease;
+}
+
+#wn-engine-button:hover {
+  background: rgba(128, 128, 128, .12);
+}
+
+#wn-engine-button:active {
+  transform: scale(.96);
+}
+
+#wn-engine-button:focus-visible {
+  outline: 2px solid rgba(59, 130, 246, .65);
+  outline-offset: 2px;
+}
+
+#wn-engine-icon {
+  display: block;
+  flex: 0 0 auto;
+  width: 21px;
+  height: 21px;
+  object-fit: contain;
+}
+
+.wn-engine-chevron {
+  display: inline-block;
+  font-size: 10px;
+  line-height: 1;
+  opacity: .65;
+  transition: transform .2s ease;
+}
+
+#wn-engine-button[aria-expanded="true"] .wn-engine-chevron {
+  transform: rotate(180deg);
+}
+
+/* Dropdown menu */
+
+#wn-engine-menu {
+  position: absolute;
+  z-index: 1000;
+  top: calc(100% + 10px);
+  left: 0;
+  width: 178px;
+  box-sizing: border-box;
+  padding: 6px;
+  border: 1px solid rgba(128, 128, 128, .2);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, .96);
+  color: #334155;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, .12);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  animation: wn-engine-menu-in .16s ease-out;
+}
+
+#wn-engine-menu[hidden] {
+  display: none !important;
+}
+
+#wn-engine-menu .wn-engine-option {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 40px;
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 0;
+  border-radius: 9px;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background .18s ease;
+}
+
+#wn-engine-menu .wn-engine-option img {
+  display: block;
+  flex: 0 0 auto;
+  width: 19px;
+  height: 19px;
+  object-fit: contain;
+}
+
+#wn-engine-menu .wn-engine-option:hover,
+#wn-engine-menu .wn-engine-option.is-active {
+  background: rgba(100, 116, 139, .12);
+}
+
+#wn-engine-menu .wn-engine-option.is-active {
+  font-weight: 600;
+}
+
+/* Search input */
+
+#wn-search {
+  flex: 1 1 auto;
+  min-width: 0;
+  width: 0;
+}
+
+#wn-search-submit {
+  box-sizing: border-box;
+  flex: 0 0 36px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 11px;
+  background: rgba(59, 130, 246, .10);
+  color: #3b82f6;
+  cursor: pointer;
+  transition:
+    background .2s ease,
+    transform .2s ease;
+}
+
+#wn-search-submit:hover {
+  background: rgba(59, 130, 246, .18);
+  transform: translateX(1px);
+}
+
+#wn-search-submit:active {
+  transform: scale(.95);
+}
+
+/* Dark mode */
+
+.dark #wn-engine-menu {
+  background: rgba(30, 41, 59, .97);
+  border-color: rgba(148, 163, 184, .2);
+  color: #e2e8f0;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, .3);
+}
+
+.dark #wn-engine-menu .wn-engine-option:hover,
+.dark #wn-engine-menu .wn-engine-option.is-active {
+  background: rgba(148, 163, 184, .16);
+}
+
+.dark #wn-search-submit {
+  background: rgba(96, 165, 250, .14);
+  color: #93c5fd;
+}
+
+.dark #wn-search-submit:hover {
+  background: rgba(96, 165, 250, .23);
+}
+
+/* Dropdown animation */
+
+@keyframes wn-engine-menu-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scale(.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Mobile */
+
+@media (max-width: 480px) {
+  #wn-search-box {
+    gap: 7px;
+  }
+
+  #wn-engine-button {
+    width: 38px;
+    height: 40px;
+    padding: 0 3px;
+  }
+
+  #wn-engine-icon {
+    width: 19px;
+    height: 19px;
+  }
+
+  #wn-engine-menu {
+    width: 165px;
+  }
+
+  #wn-search-submit {
+    flex-basis: 32px;
+    width: 32px;
+    height: 32px;
+  }
+}
+
+/* Reduced motion */
+
+@media (prefers-reduced-motion: reduce) {
+  #wn-engine-button,
+  .wn-engine-chevron,
+  #wn-engine-menu .wn-engine-option,
+  #wn-search-submit {
+    transition: none;
+  }
+
+  #wn-engine-menu {
+    animation: none;
+  }
+}
+
+/*搜索引擎下拉框*/
+
+.wn-engine-picker {
+  position: relative;
+  z-index: 100;
+}
+
+#wn-engine-menu {
+  z-index: 9999;
+  pointer-events: auto;
+}
+
+#wn-engine-menu .wn-engine-option {
+  position: relative;
+  z-index: 1;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+
+/*搜索引擎下拉*/
+
+
+/* Keep the search engine dropdown above the website grid */
+#wn-hero {
+  position: relative;
+  z-index: 100;
+  overflow: visible !important;
+}
+
+#wn-search-wrap,
+#wn-search-box,
+.wn-engine-picker {
+  position: relative;
+  overflow: visible !important;
+}
+
+#wn-engine-menu {
+  position: absolute;
+  z-index: 9999;
+  pointer-events: auto;
+}
+
+#wn-engine-menu [data-engine] {
+  position: relative;
+  z-index: 1;
+  pointer-events: auto;
+}
+
+
+/*下拉*/
+
+
+/* Search engine dropdown */
+#wn-engine-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 7px;
+  min-width: 164px;
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.14);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+/* Individual options */
+#wn-engine-menu .wn-engine-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 38px;
+  padding: 7px 10px;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  background: transparent;
+  color: #334155;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease;
+}
+
+/* Engine icons */
+#wn-engine-menu .wn-engine-option img {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
+/* Hover state */
+#wn-engine-menu .wn-engine-option:hover {
+  background: #f1f5f9;
+  border-color: #e2e8f0;
+}
+
+/* Selected engine */
+#wn-engine-menu .wn-engine-option.is-active {
+  background: #e9edf3;
+  border-color: #d7dee8;
+  color: #0f172a;
+  font-weight: 600;
+}
+
+/* Keyboard focus */
+#wn-engine-menu .wn-engine-option:focus-visible {
+  outline: 2px solid #94a3b8;
+  outline-offset: 1px;
+}
+
+/* Dark mode */
+.dark #wn-engine-menu {
+  background: rgba(30, 41, 59, 0.97);
+  border-color: rgba(148, 163, 184, 0.22);
+}
+
+.dark #wn-engine-menu .wn-engine-option {
+  color: #cbd5e1;
+}
+
+.dark #wn-engine-menu .wn-engine-option:hover {
+  background: rgba(71, 85, 105, 0.55);
+  border-color: rgba(148, 163, 184, 0.2);
+}
+
+.dark #wn-engine-menu .wn-engine-option.is-active {
+  background: rgba(100, 116, 139, 0.38);
+  border-color: rgba(148, 163, 184, 0.42);
+  color: #f8fafc;
+}
+
+
+
+/*调整下拉框宽度*/
+
+
+/* Narrower search engine dropdown */
+#wn-engine-menu {
+  min-width: 140px;
+  width: 140px;
+  padding: 6px;
+  gap: 4px;
+}
+
+#wn-engine-menu .wn-engine-option {
+  min-height: 34px;
+  padding: 6px 8px;
+  gap: 8px;
+  font-size: 13px;
+}
+
+#wn-engine-menu .wn-engine-option img {
+  width: 16px;
+  height: 16px;
+}
+
+
+/*添加历史记录样式*/
+
+
+/* Search history dropdown */
+#wn-search-box {
+  position: relative;
+}
+
+#wn-search-history {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  z-index: 10000;
+  padding: 8px;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.97);
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.14);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  color: #334155;
+}
+
+#wn-search-history[hidden] {
+  display: none !important;
+}
+
+.wn-history-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 8px 8px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+  font-size: 12px;
+  color: #64748b;
+}
+
+#wn-history-clear {
+  padding: 3px 6px;
+  border-radius: 5px;
+  border: 0;
+  background: transparent;
+  color: #64748b;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+#wn-history-clear:hover {
+  background: #f1f5f9;
+  color: #dc2626;
+}
+
+.wn-history-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 3px;
+}
+
+.wn-history-entry {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+  gap: 10px;
+  padding: 9px 10px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.wn-history-entry:hover,
+.wn-history-entry.is-active {
+  background: #f1f5f9;
+  border-color: #e2e8f0;
+}
+
+.wn-history-clock {
+  flex-shrink: 0;
+  color: #94a3b8;
+  font-size: 16px;
+}
+
+.wn-history-query {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.wn-history-delete {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: #94a3b8;
+  font-size: 18px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 150ms ease, background 150ms ease;
+}
+
+.wn-history-row:hover .wn-history-delete,
+.wn-history-delete:focus-visible {
+  opacity: 1;
+}
+
+.wn-history-delete:hover {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+/* Dark mode */
+.dark #wn-search-history {
+  background: rgba(30, 41, 59, 0.97);
+  border-color: rgba(148, 163, 184, 0.22);
+  color: #e2e8f0;
+}
+
+.dark .wn-history-header {
+  border-color: rgba(148, 163, 184, 0.2);
+  color: #94a3b8;
+}
+
+.dark #wn-history-clear {
+  color: #94a3b8;
+}
+
+.dark #wn-history-clear:hover {
+  background: rgba(71, 85, 105, 0.5);
+  color: #fca5a5;
+}
+
+.dark .wn-history-entry:hover,
+.dark .wn-history-entry.is-active {
+  background: rgba(71, 85, 105, 0.45);
+  border-color: rgba(148, 163, 184, 0.25);
+}
+
+.dark .wn-history-delete:hover {
+  background: rgba(220, 38, 38, 0.2);
+  color: #fca5a5;
+}
+
+@media (hover: none) {
+  .wn-history-delete {
+    opacity: 1;
+  }
+}
+
+
+/*天气*/
+
+
+/* Weather widget: top-right of the hero */
+
+#wn-hero {
+  position: relative;
+}
+
+
+/* Weather widget: below the date */
+
+#wn-hero {
+  position: relative;
+}
+
+#wn-weather {
+  position: relative;
+  top: auto;
+  right: auto;
+  z-index: 10;
+
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+
+  width: fit-content;
+  max-width: 100%;
+  box-sizing: border-box;
+
+  margin-top: 6px;
+  margin-bottom: 1px;
+  padding: 5px 9px;
+
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.42);
+  color: #334155;
+
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease;
+}
+
+#wn-weather:hover {
+  background: rgba(255, 255, 255, 0.72);
+  border-color: rgba(148, 163, 184, 0.32);
+}
+
+/* City and weather details on one line */
+#wn-weather .wn-weather-info {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  white-space: nowrap;
+  line-height: 1.35;
+}
+
+#wn-weather .wn-weather-city {
+  flex-shrink: 0;
+  font-size: 12px;
+  line-height: 1.2;
+  font-weight: 500;
+}
+
+#wn-weather .wn-weather-details {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+}
+
+#wn-weather .wn-weather-icon {
+  flex-shrink: 0;
+  font-size: 18px;
+  line-height: 1;
+}
+
+#wn-weather .wn-weather-temp {
+  flex-shrink: 0;
+  font-size: 15px;
+  line-height: 1.1;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+#wn-weather .wn-weather-text {
+  flex-shrink: 0;
+  font-size: 11px;
+  line-height: 1.3;
+  font-weight: 600;
+  color: #64748b;
+  white-space: nowrap;
+}
+
+#wn-weather.wn-weather-error {
+  opacity: 0.75;
+}
+
+/* Dark mode */
+.dark #wn-weather {
+  background: rgba(30, 41, 59, 0.55);
+  border-color: rgba(148, 163, 184, 0.2);
+  color: #f1f5f9;
+}
+
+.dark #wn-weather:hover {
+  background: rgba(30, 41, 59, 0.8);
+}
+
+.dark #wn-weather .wn-weather-text {
+  color: #cbd5e1;
+}
+
+/* Responsive layout */
+@media (max-width: 640px) {
+  #wn-weather {
+    top: auto;
+    right: auto;
+    margin-top: 5px;
+    padding: 4px 7px;
+  }
+
+  #wn-weather .wn-weather-info {
+    gap: 6px;
+  }
+
+  #wn-weather .wn-weather-city {
+    font-size: 11px;
+  }
+
+  #wn-weather .wn-weather-details {
+    gap: 4px;
+  }
+
+  #wn-weather .wn-weather-icon {
+    font-size: 16px;
+  }
+
+  #wn-weather .wn-weather-temp {
+    font-size: 14px;
+  }
+
+  #wn-weather .wn-weather-text {
+    font-size: 10px;
+  }
+}
+
+#wn-weather .wn-weather-city {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+#wn-weather .wn-weather-location {
+  display: inline-block !important;
+  width: 13px;
+  height: 13px;
+  line-height: 13px;
+  font-size: 12px;
+  flex-shrink: 0;
+  opacity: 0.8;
+}
+
+#wn-weather .wn-weather-location-group {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+  white-space: nowrap;
+}
+
+#wn-weather .wn-weather-location {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
+  color: currentColor;
+  opacity: 0.75;
+}
+
+
+#wn-greeting-mirror {
+  display: flex !important;
+  flex-direction: row;
+  flex-basis: 100%;
+  width: fit-content;
+  max-width: 100%;
+  box-sizing: border-box;
+  justify-content: center;
+  margin: 8px auto 18px;
+}
+
+#wn-greeting-mirror > span.text-sm.font-bold {
+  font-size: 11px !important;
+  font-weight: 400 !important;
+  line-height: 1.3 !important;
+  letter-spacing: normal !important;
+}
+
+
+
+/* 统一天气框与问候语框的高度 */
+#wn-weather,
+#wn-greeting-mirror {
+  box-sizing: border-box;
+  min-height: 32px;
+  padding-top: 5px !important;
+  padding-bottom: 5px !important;
+}
+
+/* 统一两个框的垂直对齐 */
+#wn-weather {
+  display: inline-flex;
+  align-items: center;
+}
+
+#wn-greeting-mirror {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 避免问候语文字的行高撑高容器 */
+#wn-greeting-mirror > span {
+  line-height: 1.2 !important;
+}
+
+/* 统一天气框与问候语框的圆角 */
+#wn-weather,
+#wn-greeting-mirror {
+  border-radius: 10px !important;
+}
+
+
+
+/* 统一天气信息与问候语的字体 */
+#wn-weather .wn-weather-city,
+#wn-weather .wn-weather-text,
+#wn-weather .wn-weather-temp,
+#wn-greeting-mirror > span,
+#wn-greeting-mirror > span.text-sm.font-bold {
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  line-height: 1.2 !important;
+  letter-spacing: normal !important;
+}
+
+/* 移动端同样保持字体大小与粗细一致 */
+@media (max-width: 640px) {
+  #wn-weather .wn-weather-city,
+  #wn-weather .wn-weather-text,
+  #wn-weather .wn-weather-temp,
+  #wn-greeting-mirror > span,
+  #wn-greeting-mirror > span.text-sm.font-bold {
+    font-size: 12px !important;
+    font-weight: 500 !important;
+    line-height: 1.2 !important;
+  }
+}
+
+
+/* 统一天气信息与问候语的文字颜色 */
+#wn-weather .wn-weather-city,
+#wn-weather .wn-weather-text,
+#wn-weather .wn-weather-temp,
+#wn-greeting-mirror > span {
+  color: #334155 !important;
+}
+
+/* 深色模式 */
+.dark #wn-weather .wn-weather-city,
+.dark #wn-weather .wn-weather-text,
+.dark #wn-weather .wn-weather-temp,
+.dark #wn-greeting-mirror > span {
+  color: #f1f5f9 !important;
+}
+
+/* 缩小问候语圆角框左右两侧的空白 */
+#wn-greeting-mirror {
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+}
+
+
+
+/* 统一顶部导航栏和底部页脚背景 */
+header.glass {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+
+  box-shadow: none !important;
+  transition: none !important;
+}
+
+header.glass::before,
+header.glass::after {
+  background: transparent !important;
+  background-image: none !important;
+}
+
+footer {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+
+
+/* 最终覆盖：顶部导航栏完全透明 */
+html body #app header.glass {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: none !important;
+  transition: none !important;
+}
+
+
+/* 去除顶部导航栏与背景衔接处的细线 */
+html body #app header.glass {
+  border: none !important;
+  border-bottom: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* 去除底部页脚与背景衔接处的细线 */
+html body #app footer {
+  border: none !important;
+  border-top: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+
+/* 隐藏左上角的 Flaris 导航品牌标识 */
+header.glass a[href="/"] {
+  display: none !important;
+}
+
+
+/* 顶部品牌标识右侧的信息容器 */
+/* 缩小品牌标识与天气、问候语之间的距离 */
+#wn-top-info {
+  display: flex;
+  flex: 0 1 auto;
+  align-items: center;
+  gap: 5px;
+  min-width: 0;
+  margin-left: 4px;
+  white-space: nowrap;
+}
+
+/* 天气组件：取消原先位于日期下方的间距 */
+#wn-top-info #wn-weather {
+  position: static !important;
+  top: auto !important;
+  right: auto !important;
+  margin: 0 !important;
+  flex: 0 0 auto;
+  max-width: none;
+}
+
+/* 问候语：改为与天气横向排列 */
+#wn-top-info #wn-greeting-mirror {
+  display: inline-flex !important;
+  flex: 0 1 auto !important;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  max-width: 280px;
+  min-width: 0;
+  margin: 0 !important;
+  padding: 5px 10px !important;
+  overflow: hidden;
+}
+
+/* 问候语过长时省略，避免挤压右侧菜单 */
+#wn-top-info #wn-greeting-mirror > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 手机屏幕空间较小时隐藏问候语，保留天气 */
+@media (max-width: 640px) {
+  #wn-top-info {
+    gap: 0;
+    margin-left: 8px;
+  }
+
+  #wn-top-info #wn-greeting-mirror {
+    display: none !important;
+  }
+}
+
+
+/* 覆盖品牌标识原有的右外边距 */
+header.glass div[title="返回首页"] {
+  margin-right: 4px !important;
+}
+
+
+
+/* 顶部导航：品牌、天气和问候语紧凑排列 */
+@media (min-width: 768px) {
+  header.glass .container.mx-auto.px-4.h-full.flex.items-center.justify-between {
+    justify-content: flex-start !important;
+    column-gap: 12px !important;
+  }
+
+  /* 品牌标识取消多余右边距 */
+  header.glass .container.mx-auto.px-4.h-full.flex.items-center.justify-between
+  > div[title="返回首页"] {
+    margin-right: 0 !important;
+  }
+
+  /* 天气与问候语紧跟品牌标识 */
+  header.glass #wn-top-info {
+    flex: 0 1 auto !important;
+    margin-left: 0 !important;
+    gap: 5px !important;
+  }
+
+  /* 中间导航菜单紧随左侧信息 */
+  header.glass .container.mx-auto.px-4.h-full.flex.items-center.justify-between
+  > nav {
+    margin-left: 8px;
+  }
+
+  /* 右侧功能区占据剩余空间，保持靠右 */
+  header.glass .container.mx-auto.px-4.h-full.flex.items-center.justify-between
+  > div.flex-1.justify-end {
+    flex: 1 1 auto !important;
+    margin-left: auto !important;
+    justify-content: flex-end !important;
+  }
+}
+
+
+
+
+
+
+/* 手机端：天气优先，避免被裁切或覆盖右侧按钮 */
+@media (max-width: 640px) {
+  /* 顶部信息容器不再强行限制宽度 */
+  header.glass #wn-top-info {
+    display: flex !important;
+    flex: 1 1 auto !important;
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    overflow: visible !important;
+    gap: 0 !important;
+  }
+
+  /* 手机端隐藏问候语，优先为天气留空间 */
+  header.glass #wn-top-info #wn-greeting-mirror {
+    display: none !important;
+  }
+
+  /* 天气不再被固定宽度截断 */
+  header.glass #wn-top-info #wn-weather {
+    display: flex !important;
+    flex: 0 1 auto !important;
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    overflow: visible !important;
+    white-space: nowrap !important;
+  }
+
+  /* 右侧操作区域保持完整 */
+  header.glass .container.mx-auto.px-4.h-full.flex.items-center.justify-between
+  > div.flex-1.justify-end {
+    flex: 0 0 auto !important;
+    min-width: max-content !important;
+    margin-left: auto !important;
+    position: relative !important;
+    z-index: 30 !important;
+  }
+}
+
+
+
+
+
+/* 手机端：天气信息分两行显示 */
+@media (max-width: 640px) {
+  header.glass #wn-top-info #wn-weather {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-content: center !important;
+    align-items: center !important;
+    white-space: normal !important;
+    row-gap: 2px !important;
+    column-gap: 5px !important;
+    max-width: 125px !important;
+    overflow: visible !important;
+    line-height: 1.25 !important;
+  }
+
+  header.glass #wn-top-info #wn-weather > * {
+    min-width: 0;
+    line-height: 1.25 !important;
+  }
+}
+
+
+
+/* 手机端：天气信息固定分两行 */
+@media (max-width: 640px) {
+  /* 天气容器允许两行排列 */
+  header.glass #wn-top-info #wn-weather {
+    display: block !important;
+    width: auto !important;
+    max-width: none !important;
+    overflow: visible !important;
+    white-space: normal !important;
+  }
+
+  header.glass #wn-top-info #wn-weather .wn-weather-info {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    justify-content: center !important;
+    gap: 2px !important;
+    min-width: 0 !important;
+    line-height: 1.25 !important;
+  }
+
+  /* 第一行：定位图标 + 城市 */
+  header.glass #wn-top-info #wn-weather .wn-weather-location-group {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 3px !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    white-space: nowrap !important;
+  }
+
+  /* 第二行：天气图标 + 天气状况 + 温度 */
+  header.glass #wn-top-info #wn-weather .wn-weather-details {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    min-width: 0 !important;
+    white-space: nowrap !important;
+  }
+}
+
+/* 202610019 */
+
+/* 隐藏顶部分类导航按钮，保留页面中的网址卡片 */
+/* .group.relative.h-full.flex.items-center.px-1 {
+display: none !important;
+}
+*/
+
+/* 网站卡片容器：固定间距，每行不足 8 个时整体居中 */
+#app .grid[class*="grid-cols-2"][class*="xl:grid-cols-6"] {
+    display: flex !important;
+    flex-flow: row wrap !important;
+    justify-content: center !important;
+    align-content: flex-start;
+    gap: 1rem !important;
+    width: 100% !important;
+    box-sizing: border-box;
+}
+
+/* 卡片保持原来的宽度，不拉伸 */
+#app .grid[class*="grid-cols-2"][class*="xl:grid-cols-6"] > a {
+    flex: 0 0 auto !important;
+    width: auto;
+}
+
+
+
+
+/* Dark mode: suppress the card's hover decoration */
+html.dark #app main a.group.card-glass:hover {
+    background-color: transparent !important;
+    border: 0 !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+/* Keep the card content visible */
+html.dark #app main a.group.card-glass:hover > div:first-child {
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* Disable only the card's pseudo-element decoration */
+html.dark #app main a.group.card-glass:hover::before,
+html.dark #app main a.group.card-glass:hover::after {
+    content: none !important;
+    display: none !important;
+}
